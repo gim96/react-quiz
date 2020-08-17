@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-//import firebase from './components/firebase';
-//import {UpdateQ}   from "./components/UpdateQ";
-//import Test from './components/Test';
 import Tasks from "./components/Tasks";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Login from "./components/Login";
