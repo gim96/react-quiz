@@ -20,6 +20,15 @@ class Register extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    signUp(e){
+        e.preventDefault();
+        firebase.auth().createUserWithEmailAndPassword(this.state.user,this.state.pass).then((u)=>{
+            console.log(u)
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
     handleChange_user=(event)=>{
         this.setState({user: event.target.value});
     }
@@ -29,46 +38,53 @@ class Register extends Component {
     handleChange_Repass=(event)=>{
         this.setState({re_pass: event.target.value});
     }
-    handleSubmit(event) {
+    handleSubmit(e) {
 
-        const db = firebase.firestore();
-        //const data = await db.collection("quiz").get();
-        db.collection("quiz").where('username','==',this.state.user)
-        .get()
-        .then(querySnapshot => {
-          const data = querySnapshot.docs.map(doc => doc.data());
-          console.log(data);
-          if(data.length>0){
-            this.setState({ curr_user: data[0].username });
-          }
+        e.preventDefault();
+        firebase.auth().createUserWithEmailAndPassword(this.state.user,this.state.pass).then((u)=>{
+            console.log(u)
+        }).catch((err)=>{
+            console.log(err);
+        })
+
+        // const db = firebase.firestore();
+        // //const data = await db.collection("quiz").get();
+        // db.collection("quiz").where('username','==',this.state.user)
+        // .get()
+        // .then(querySnapshot => {
+        //   const data = querySnapshot.docs.map(doc => doc.data());
+        //   console.log(data);
+        //   if(data.length>0){
+        //     this.setState({ curr_user: data[0].username });
+        //   }
           
-        });
+        // });
 
-        if(this.state.user!==this.state.curr_user){
+        // if(this.state.user!==this.state.curr_user){
 
             
-            if(this.state.user!=="" && this.state.pass!=="" && this.state.re_pass!==""){
+        //     if(this.state.user!=="" && this.state.pass!=="" && this.state.re_pass!==""){
 
-                if(this.state.pass===this.state.re_pass){
-                    const db = firebase.firestore();
-                    db.collection("quiz").add({ username: this.state.user ,password: this.state.pass});
+        //         if(this.state.pass===this.state.re_pass){
+        //             const db = firebase.firestore();
+        //             db.collection("quiz").add({ username: this.state.user ,password: this.state.pass});
                     
-                    alert('Successfully Registred.!');
-                    this.props.history.push("/components/login");
-                    event.preventDefault();
-                }else{
+        //             alert('Successfully Registred.!');
+        //             this.props.history.push("/components/login");
+        //             event.preventDefault();
+        //         }else{
     
-                    alert('Passwords did not matched..!');
-                }
+        //             alert('Passwords did not matched..!');
+        //         }
     
-            }else{
+        //     }else{
     
-                alert('requried field ..!');
-            }
+        //         alert('requried field ..!');
+        //     }
 
-        }else{
-            alert('this Username alredy exist..!');
-        }
+        // }else{
+        //     alert('this Username alredy exist..!');
+        // }
 
        
 

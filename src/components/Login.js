@@ -27,7 +27,11 @@ class Login extends Component {
           this.handleChange_pass = this.handleChange_pass.bind(this);
           this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
+
+
+    // login(e){
+     
+    // }
     
     
 
@@ -38,57 +42,67 @@ class Login extends Component {
         this.setState({pass: event.target.value});
       }
     
-      handleSubmit(event) {
+      handleSubmit(e) {
 
+        e.preventDefault();
+        firebase.auth().signInWithEmailAndPassword(this.state.user,this.state.pass).then((u)=>{
+          localStorage.setItem('s_user',this.state.user);
+          this.props.history.push("/components/task");
+            console.log(u)
+        }).catch((err)=>{
+          console.log(err);
+        })
         //get Username from database
 
-        if(this.state.user!=="" && this.state.user!=="" ){
+        // if(this.state.user!=="" && this.state.user!=="" ){
 
-          const db = firebase.firestore();
-          db.collection("quiz").where('username','==',this.state.user)
-          .get()
-          .then(querySnapshot => {
-            const data = querySnapshot.docs.map(doc => doc.data());
+        //   const db = firebase.firestore();
+        //   db.collection("quiz").where('username','==',this.state.user)
+        //   .get()
+        //   .then(querySnapshot => {
+        //     const data = querySnapshot.docs.map(doc => doc.data());
             
-           if(data.length>0){
+        //    if(data.length>0){
   
-            this.setState({ userNN:data[0].username});
-           }
+        //     this.setState({ userNN:data[0].username});
+        //    }
           
-        // console.log(data);
-          });
-        
-          //get password from database
-          db.collection("quiz").where('password','==',this.state.pass)
-          .get()
-          .then(querySnapshot => {
-            const data2 = querySnapshot.docs.map(doc => doc.data());
-            if(data2.length>0){
-              this.setState({ passNN:data2[0].password });
-            }
-          
-            if(this.state.user===this.state.userNN && this.state.pass===this.state.passNN){
-              localStorage.setItem('s_user',this.state.userNN);
-              this.props.history.push("/components/task");
-              //alert('ok');
-            }else{
-              alert('Login Failed.!');
-            }
+        // // console.log(data);
          
-          });
+        
+        //   //get password from database
+        //   db.collection("quiz").where('password','==',this.state.pass)
+        //   .get()
+        //   .then(querySnapshot => {
+        //     const data2 = querySnapshot.docs.map(doc => doc.data());
+        //     if(data2.length>0){
+        //       this.setState({ passNN:data2[0].password });
+        //     }
+        //     //console.log(this.state.passNN);
+          
+        //     if(this.state.user===this.state.userNN && this.state.pass===this.state.passNN){
+        //       localStorage.setItem('s_user',this.state.userNN);
+        //       this.props.history.push("/components/task");
+        //       //alert('ok');
+        //     }else{
+        //       alert('Login Failed.!');
+        //     }
+         
+        //   });
 
+        // });
        
 
-        }else{ 
-          alert('requied Fields.!');
-        }
+        // }else{ 
+        //   alert('requied Fields.!');
+        // }
         
 
         
        // console.log(this.state.person);
        // alert(this.state.userNN);
       
-        event.preventDefault();
+       
       }
 
       // async componentDidMount(){
@@ -153,7 +167,7 @@ class Login extends Component {
                     <div>
                      <table width="100%" border='0' cellPadding='10'>
                  <tr>
-                     <td width="50%"> <h5>English Tenses -Quize</h5></td>
+                     <td width="50%"> <h5 >English Tenses -Quize</h5></td>
 
                      <td width="50%" align='right'><Link to="/components/register"><button type="button" class="btn btn-outline-info">Sign up</button></Link></td>
                  </tr>
@@ -196,7 +210,7 @@ class Login extends Component {
                         </form>
                       
                         </div>
-                       
+                     
                     </div>
                   );
                 }                

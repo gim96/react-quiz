@@ -11,7 +11,7 @@ class Tasks extends Component {
       
             loading:true,
            // redirect: localStorage.getItem('s_user'),
-            person:'',
+            person:[],
             count:0,
             chkAns:0,
             chck_1:false,
@@ -45,29 +45,28 @@ class Tasks extends Component {
 
        async componentDidMount() {
 
-       
         
         const db = firebase.firestore();
         //const data = await db.collection("quiz").get();
         db.collection("tasks")
         .get()
         .then(querySnapshot => {
-          const data = querySnapshot.docs.map(doc => doc.data());
+        const data = querySnapshot.docs.map(doc => doc.data());
           
           this.setState({ person: data,loading:false });
         });
-
+        // console.log(this.state.person[1].question);
        // console.log(this.state.curTime);
        
         db.collection("myScore").where('name','==',localStorage.getItem('s_user'))
         .get()
         .then(querySnapshot => {
           const data2 = querySnapshot.docs.map(doc => doc.data());
-         // console.log(data);
+      
          if(data2.length>0){
           this.setState({ marks: data2 });
          }
-        // console.log(data2);
+       
          if(data2.length>=3){
             alert('3 attempts exceeded..!');
             this.setState({btnNext:true});
@@ -81,8 +80,9 @@ class Tasks extends Component {
 
   handleIncrement=()=>{
     
+  
 
-    if(this.state.count<9 ){
+      if(this.state.count<9 ){
 
         // console.log(this.state.chkAns);
         // console.log(this.state.person[this.state.count].ans);
@@ -98,12 +98,17 @@ class Tasks extends Component {
 
     }else{
 
+
         const db = firebase.firestore();
         db.collection("myScore").add({ name: localStorage.getItem('s_user') ,score: this.state.score ,date:this.state.curTime});
         alert('Total :' + this.state.score +'/10');
-        this.setState({btnState:false})
+        this.setState({btnState:false,btnNext:true})
 
     }
+
+    
+
+   
 
   
  
@@ -114,30 +119,10 @@ class Tasks extends Component {
   handleTry=()=>{
     this.setState({loading:true,person:'',count:0,chkAns:0,chck_1:false,chck_2:false,chck_3:false,score:0})
     this.componentDidMount();
-    this.setState({ btnState: true })
+    this.setState({ btnState: true ,btnNext:false})
 
-    //  let userCount=1;
-    //   console.log(userCount);
-  //   if(!localStorage.getItem('atmpt')){
-  //     localStorage.setItem('atmpt', this.state.atpmtCount);
-  //   }
-  //  else{
-    
-  //   if(localStorage.getItem('atmpt')<3){
-  //     this.setState({atpmtCount:localStorage.getItem('atmpt') +1});
 
-  //     localStorage.setItem('atmpt',this.state.atpmtCount );
-  //   }else{
-  //     alert('attemps exceeded..!');
-  //     this.setState({btnNext:true});
-  //   }
 
-  //  }
-
-  
-    
-    
-   
   }
 
   handleCheck_1=(event)=>{
@@ -169,11 +154,15 @@ class Tasks extends Component {
       this.setState({chck_3:true,chck_1:false,chck_2:false})
   }
 
+  // logout(){
+  //   firebase.auth().signOut();
+  // }
+
   render() {
 
     if (this.state.loading) {
         return <div>loading...</div>;
-      }
+    }
   
       if (!this.state.person) {
         return <div>didn't get a person</div>;
@@ -188,7 +177,8 @@ class Tasks extends Component {
                  <tr>
                      <td width="50%"> <h5>English Tenses -Quize</h5></td>
 
-                     <td width="50%" align='right'><Link to="/components/logout"><button type="button" class="btn btn-outline-info">Logout</button></Link></td>
+                     <td width="50%" align='right'>
+                     <Link to="/components/logout"><button onClick={this.logout} class="btn btn-outline-info">Logout</button></Link></td>
                  </tr>
              </table>
            
@@ -197,7 +187,7 @@ class Tasks extends Component {
              <br></br>
              <div class="card" class="shadow p-3 mb-5 bg-white rounded">
              <br></br>
-             <table align='center' width="60%" border='0'>
+             <table align='center' width="50%" border='0'>
               <thead>
                <tr>
                  <td>
@@ -212,7 +202,7 @@ class Tasks extends Component {
               </thead>
                   <tr>
                       <td ><button class="btn btn-warning pull-left btn-block btn-lg">
-                        <table><tr><td><h6> {this.state.count+1}.  &nbsp;{ this.state.person[this.state.count].question}</h6></td></tr></table>
+                        <table><tr><td><h6>  {this.state.count+1}.  &nbsp;{this.state.person[this.state.count].question}</h6></td></tr></table>
                         </button></td>
                     
                   </tr>
@@ -252,10 +242,10 @@ class Tasks extends Component {
                    
 
                     <td align='center' width="40%" height='100%'>
-                    <table width='100%'><tr><td>Score Board</td><td><hr height='2'></hr></td></tr></table> <br></br>
+                    <table width='100%' ><tr><td>Score Board</td><td><hr height='2'></hr></td></tr></table> <br></br>
 
                     {/* <div width="1" height="100%"></div> */}
-                          <table class="table table-bordered">
+                          <table width='100%' class="table table-bordered" class="shadow-sm p-3 mb-5 bg-white rounded"> 
                           <thead>
                             <tr>
                               <th class='card-header'>Time stamps</th>
@@ -299,6 +289,9 @@ class Tasks extends Component {
        
    
   );
+
+                            
+                            
 }                
 
 }
