@@ -1,29 +1,22 @@
-
 import React, { Component } from "react";
 import "./App.css";
 //import firebase from './components/firebase';
 //import {UpdateQ}   from "./components/UpdateQ";
 //import Test from './components/Test';
-import Tasks from './components/Tasks';
-import { BrowserRouter as Router,Route,Redirect } from "react-router-dom";
+import Tasks from "./components/Tasks";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Logout from "./components/Logout";
 
-class App extends Component{
-
- 
-
-
-  render(){
-
+class App extends Component {
+  render() {
     return (
-   
       // <ul>
       //   <input type='text'
       //   name='user'
       //  // onChange={(e) => set_qname(e.target.value)}
-          
+
       //   ></input>
       //   <button onClick={onCreate}>Login</button>
       //   {/* <input
@@ -38,27 +31,19 @@ class App extends Component{
       //     </li>
       //   ))}
       // </ul>
-   
+
       <Router>
-        
-       
-      <div >
-      <Redirect from="/app" to="/components/login" />
-        <Route path="/components/task" component={Tasks} />
-        <Route path="/components/login" component={Login} />
-        <Route path="/components/register" component={Register} />
-        <Route path="/components/logout" component={Logout} />
-      </div>
+        <div>
+          <Redirect from="/app" to="/components/login" />
+          <Route path="/components/task" component={Tasks} />
+          <Route path="/components/login" component={Login} />
+          <Route path="/components/register" component={Register} />
+          <Route path="/components/logout" component={Logout} />
+        </div>
       </Router>
-  
     );
-  
-  
   }
-
-
-  }
- 
+}
 
 //   const [quiz, setQuiz] = useState([]);
 //  // const [q_name, set_qname] = React.useState("");
@@ -81,11 +66,7 @@ class App extends Component{
 //   // };
 
 //   const onCreate = () => {
-    
-    
-    
-//   };
 
- 
+//   };
 
 export default App;
