@@ -1,6 +1,6 @@
 {
   "name": "quize",
-  "homepage": "https://app.herokuapp.com/",
+  "homepage": "https://react-q.herokuapp.com/",
   "version": "0.1.0",
   "private": true,
   "engines": {
