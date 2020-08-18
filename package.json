@@ -1,11 +1,12 @@
 {
   "name": "quize",
-  "homepage": "http://gim96.github.io/react-quiz/",
+  "homepage": "https://app.herokuapp.com/",
   "version": "0.1.0",
   "private": true,
   "engines": {
     "node": "12.16.3",
-    "npm": "6.14.4"
+    "npm": "6.14.4",
+    "yarn": "1.22.4"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",

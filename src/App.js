@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 import Tasks from "./components/Tasks";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Login from "./components/Login";
