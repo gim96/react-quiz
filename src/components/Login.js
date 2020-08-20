@@ -7,8 +7,6 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      // loading: true,
-      // redirect: localStorage.getItem('s_user'),
       user: "",
       pass: "",
       userNN: "",
@@ -16,7 +14,6 @@ class Login extends Component {
     };
 
     if (localStorage.getItem("s_user")) {
-      //return <Redirect to='components/login' />
       this.props.history.push("/components/task");
     }
 
@@ -24,10 +21,6 @@ class Login extends Component {
     this.handleChange_pass = this.handleChange_pass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  // login(e){
-
-  // }
 
   handleChange_user(event) {
     this.setState({ user: event.target.value });
@@ -37,110 +30,27 @@ class Login extends Component {
   }
 
   handleSubmit(e) {
+    if (this.state.user != "" && this.state.pass != "") {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.state.user, this.state.pass)
+        .then((u) => {
+          localStorage.setItem("s_user", this.state.user);
+          this.props.history.push("/components/task");
+          console.log(u);
+        })
+        .catch((err) => {
+          alert("Email or password is wrong..!");
+          console.log(err);
+        });
+    } else {
+      alert("Username and Password are Reqired");
+    }
+
     e.preventDefault();
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.user, this.state.pass)
-      .then((u) => {
-        localStorage.setItem("s_user", this.state.user);
-        this.props.history.push("/components/task");
-        console.log(u);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    //get Username from database
-
-    // if(this.state.user!=="" && this.state.user!=="" ){
-
-    //   const db = firebase.firestore();
-    //   db.collection("quiz").where('username','==',this.state.user)
-    //   .get()
-    //   .then(querySnapshot => {
-    //     const data = querySnapshot.docs.map(doc => doc.data());
-
-    //    if(data.length>0){
-
-    //     this.setState({ userNN:data[0].username});
-    //    }
-
-    // // console.log(data);
-
-    //   //get password from database
-    //   db.collection("quiz").where('password','==',this.state.pass)
-    //   .get()
-    //   .then(querySnapshot => {
-    //     const data2 = querySnapshot.docs.map(doc => doc.data());
-    //     if(data2.length>0){
-    //       this.setState({ passNN:data2[0].password });
-    //     }
-    //     //console.log(this.state.passNN);
-
-    //     if(this.state.user===this.state.userNN && this.state.pass===this.state.passNN){
-    //       localStorage.setItem('s_user',this.state.userNN);
-    //       this.props.history.push("/components/task");
-    //       //alert('ok');
-    //     }else{
-    //       alert('Login Failed.!');
-    //     }
-
-    //   });
-
-    // });
-
-    // }else{
-    //   alert('requied Fields.!');
-    // }
-
-    // console.log(this.state.person);
-    // alert(this.state.userNN);
   }
 
-  // async componentDidMount(){
-
-  // myfunction(){
-
-  //   const db = firebase.firestore();
-  //   db.collection("quiz").where('username','==',this.state.user)
-  //   .get()
-  //   .then(querySnapshot => {
-  //     const data = querySnapshot.docs.map(doc => doc.data());
-
-  //    if(data.length>0){
-
-  //     this.setState({ userNN:data[0].username});
-  //    }
-
-  //     db.collection("quiz").where('password','==',this.state.pass)
-  //   .get()
-  //   .then(querySnapshot => {
-  //     const data2 = querySnapshot.docs.map(doc => doc.data());
-  //     if(data2.length>0){
-  //       this.setState({ passNN:data2[0].password });
-  //     }
-
-  // // console.log(data);
-  //   });
-
-  //   //get password from database
-
-  //     // console.log(this.state.userNN);
-
-  //   });
-
-  // }
-
-  // }
-
   render() {
-    // if (this.state.loading) {
-    //     return <div>loading...</div>;
-    //   }
-
-    //   if (!this.state.person) {
-    //     return <div>didn't get a person</div>;
-    //   }
-
     return (
       <div>
         <table width="100%" border="0" cellPadding="10">

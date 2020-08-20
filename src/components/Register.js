@@ -19,19 +19,6 @@ class Register extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  //   signUp(e) {
-  //     e.preventDefault();
-  //     firebase
-  //       .auth()
-  //       .createUserWithEmailAndPassword(this.state.user, this.state.pass)
-  //       .then((u) => {
-  //         console.log(u);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-
   handleChange_user = (event) => {
     this.setState({ user: event.target.value });
   };
@@ -42,17 +29,27 @@ class Register extends Component {
     this.setState({ re_pass: event.target.value });
   };
   handleSubmit(event) {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.user, this.state.pass)
-      .then((u) => {
-        alert("Youre are successfully Signup.....");
-        this.props.history.push("/components/login");
-        console.log(u);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (
+      this.state.user !== "" &&
+      this.state.pass !== "" &&
+      this.state.re_pass !== ""
+    ) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.user, this.state.pass)
+        .then((u) => {
+          alert("Youre are successfully Signup.....");
+          this.props.history.push("/components/login");
+          console.log(u);
+        })
+        .catch((err) => {
+          alert("check your credencials..!");
+          console.log(err);
+        });
+    } else {
+      alert("Required fields...!");
+    }
+
     event.preventDefault();
   }
 
